@@ -3,7 +3,10 @@ package com.dennis_brink.android.bombsquad;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +37,38 @@ public class MainActivity extends AppCompatActivity {
         imageViewGrenade9 = findViewById(R.id.grenade9);
 
         grid = findViewById(R.id.grid);
+
+        new CountDownTimer(5000, 1000) {
+            @Override
+            public void onTick(long l) {
+                // do something every interval
+                textViewCountdown.setText(""+l/1000);
+            }
+
+            @Override
+            public void onFinish() {
+
+                // if done we do...
+                textViewCountdown.setVisibility(View.INVISIBLE);
+                textViewTime.setVisibility(View.VISIBLE);
+                textViewScore.setVisibility(View.VISIBLE);
+                grid.setVisibility(View.VISIBLE);
+
+                // start init game duration (30 secs counting down)
+                new CountDownTimer(30000, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        textViewTime.setText("Time remaining: " + l/1000);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Intent i = new Intent(MainActivity.this, ResultActivity.class);
+                        startActivity(i);
+                    }
+                }.start();
+            }
+        }.start();
 
     }
 }
