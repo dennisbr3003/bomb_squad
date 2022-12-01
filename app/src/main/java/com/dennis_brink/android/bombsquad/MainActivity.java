@@ -6,6 +6,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
               imageViewGrenade4, imageViewGrenade5, imageViewGrenade6,
               imageViewGrenade7, imageViewGrenade8, imageViewGrenade9;
     GridLayout grid; // has to be androidx variant
+
+    int score=0;
+
+    private static final String TAG = "DENNIS_B";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,4 +77,11 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
     }
+
+    public void increaseScore(View view){
+        Log.d(TAG, "view " + view.getTag());
+        score++;
+        textViewScore.setText("Score: " + score);
+    }
+
 }
