@@ -18,6 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imagViewPrepare"
+        android:layout_width="272dp"
+        android:layout_height="125dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCountdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/get_ready" />
+
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid"
         android:layout_width="wrap_content"

@@ -21,7 +21,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewTime, textViewCountdown, textViewScore;
-    ImageView imageViewGrenade1, imageViewGrenade2, imageViewGrenade3,
+    ImageView imageViewPrepare,
+              imageViewGrenade1, imageViewGrenade2, imageViewGrenade3,
               imageViewGrenade4, imageViewGrenade5, imageViewGrenade6,
               imageViewGrenade7, imageViewGrenade8, imageViewGrenade9;
     GridLayout grid; // has to be androidx variant
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         imageViewGrenade8 = findViewById(R.id.grenade8);
         imageViewGrenade9 = findViewById(R.id.grenade9);
 
+        imageViewPrepare = findViewById(R.id.imagViewPrepare);
+
         mediaPlayer = MediaPlayer.create(this, R.raw.explosion_6288);
 
         explosivesArray = new ImageView[] {imageViewGrenade1, imageViewGrenade2, imageViewGrenade3,
@@ -85,8 +88,11 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
+                        handler.removeCallbacks(runnable); // stop the handler
                         Intent i = new Intent(MainActivity.this, ResultActivity.class);
+                        i.putExtra("score", score);
                         startActivity(i);
+                        finish();
                     }
                 }.start();
             }
@@ -114,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     public void explosiveControl(){
         // if done we do...
         textViewCountdown.setVisibility(View.INVISIBLE);
+        imageViewPrepare.setVisibility(View.INVISIBLE);
         textViewTime.setVisibility(View.VISIBLE);
         textViewScore.setVisibility(View.VISIBLE);
 
@@ -128,8 +135,18 @@ public class MainActivity extends AppCompatActivity {
             int i = random.nextInt(explosivesArray.length);
             explosivesArray[i].setVisibility(View.VISIBLE);
 
-            handler.postDelayed(runnable, 2000); // this will setup the repeat sequence
-
+            if(score <= 5) {
+                handler.postDelayed(runnable, 1500); // this will setup the repeat sequence
+            }
+            if(score > 5 && score <= 10) {
+                handler.postDelayed(runnable, 1250); // this will setup the repeat sequence
+            }
+            if(score > 10 && score <= 15) {
+                handler.postDelayed(runnable, 1000); // this will setup the repeat sequence
+            }
+            if(score > 15) {
+                handler.postDelayed(runnable, 750); // this will setup the repeat sequence
+            }
         };
 
         handler.post(runnable); // this will start the runnable and in fact start the game; running in a loop
