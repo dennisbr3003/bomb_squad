@@ -1,5 +1,6 @@
 package com.dennis_brink.android.bombsquad;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     GridLayout grid; // has to be androidx variant
 
     int score=0;
-
+    boolean state = false;
     Runnable runnable;
     Handler handler;
 
@@ -129,8 +132,32 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-        handler.post(runnable); // this will start the runnable and in fact start the game
+        handler.post(runnable); // this will start the runnable and in fact start the game; running in a loop
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == R.id.itemMute){
+            // sound is on, state = false
+            if(!state){ // sound is on --> turn it off (mute)
+                mediaPlayer.setVolume(0, 0);
+                item.setIcon(R.drawable.ic_baseline_volume_off_24);
+                state = true;
+            } else { // sound is off --> turn it on
+                mediaPlayer.setVolume(1, 1);
+                item.setIcon(R.drawable.ic_baseline_volume_up_24);
+                state = false;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
